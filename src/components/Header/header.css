@@ -1,0 +1,18 @@
+.header{
+    background-color: rgb(165, 79, 97);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: myFirstFont;
+    color: rgb(153, 255, 0);
+    text-shadow: 2px 2px black;
+    letter-spacing: 2px;
+    font-size: xx-large;
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url("../../get_schwifty.ttf");
+}
+  
+

@@ -1,4 +1,23 @@
 .single-character {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.char-data {
+    background-color: white;
+    height: 511.2px;
+    padding-right: 25px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+
+.char-card {
+    background-color: white;
+    height: fit-content;
+}
+
+h3 {
+    padding: 25px 0;
 }

@@ -10,6 +10,26 @@ class App extends React.Component {
     likedCharacters: JSON.parse(localStorage.getItem("likedCharacters")) || [],
   };
 
+  fetchData() {
+    fetch("https://rickandmortyapi.com/api/character/?page=" + this.state.page)
+      .then((res) => res.json())
+      .then((res) => this.setState({ characters: res.results }));
+  }
+
+  setPage(pageNumber) {
+    this.setState({page: pageNumber})
+  }
+
+  nextPage() {
+    if(this.state.page<42)
+      this.setState({page: this.state.page+1})
+  }
+
+  previousPage() {
+    if(this.state.page>1)
+      this.setState({page: this.state.page-1})
+  }
+
   addLikedCharacter(id) {
     this.setState(
       {
@@ -40,27 +60,35 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://rickandmortyapi.com/api/character/?page=" + this.state.page)
-      .then((res) => res.json())
-      .then((res) => this.setState({ characters: res.results }));
+    this.fetchData()
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    if(previousState.page!==this.state.page) {
+      this.fetchData()
+    }
   }
 
   render() {
     return (
       <>
-        {/* <Home
+        <Home
           characters={this.state.characters}
           likedCharacters={this.state.likedCharacters}
           addLikedCharacter={this.addLikedCharacter.bind(this)}
           removeLikedCharacter={this.removeLikedCharacter.bind(this)}
-        ></Home> */}
-        <SinglePage
+          previousPage = {this.previousPage.bind(this)}
+          nextPage = {this.nextPage.bind(this)}
+          page = {this.state.page}
+          setPage = {this.setPage.bind(this)}
+        ></Home>
+        {/* <SinglePage
           id = {3}
           characters={this.state.characters}
           likedCharacters={this.state.likedCharacters}
           addLikedCharacter={this.addLikedCharacter.bind(this)}
           removeLikedCharacter={this.removeLikedCharacter.bind(this)}
-        ></SinglePage>
+        ></SinglePage> */}
       </>
     );
   }

@@ -72,7 +72,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Home
+        {/* <Home
           characters={this.state.characters}
           likedCharacters={this.state.likedCharacters}
           addLikedCharacter={this.addLikedCharacter.bind(this)}
@@ -81,14 +81,14 @@ class App extends React.Component {
           nextPage = {this.nextPage.bind(this)}
           page = {this.state.page}
           setPage = {this.setPage.bind(this)}
-        ></Home>
-        {/* <SinglePage
+        ></Home> */}
+        <SinglePage
           id = {3}
           characters={this.state.characters}
           likedCharacters={this.state.likedCharacters}
           addLikedCharacter={this.addLikedCharacter.bind(this)}
           removeLikedCharacter={this.removeLikedCharacter.bind(this)}
-        ></SinglePage> */}
+        ></SinglePage>
       </>
     );
   }

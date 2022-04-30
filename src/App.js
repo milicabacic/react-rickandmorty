@@ -2,13 +2,26 @@ import React from "react";
 import Home from "./pages/Home/Home";
 import SinglePage from "./pages/SinglePage/SinglePage";
 import "./app.css";
+import { Route, Routes, useParams } from "react-router-dom";
+import Dugme from "./nesto";
+
+
 
 class App extends React.Component {
   state = {
     page: 1,
+    htmlPage: "home",
     characters: [],
     likedCharacters: JSON.parse(localStorage.getItem("likedCharacters")) || [],
   };
+
+  goToHomePage() {
+    this.setState({ htmlPage: "home" });
+  }
+
+  goToSinglePage() {
+    this.setState({ htmlPage: "single" });
+  }
 
   fetchData() {
     fetch("https://rickandmortyapi.com/api/character/?page=" + this.state.page)
@@ -17,17 +30,15 @@ class App extends React.Component {
   }
 
   setPage(pageNumber) {
-    this.setState({page: pageNumber})
+    this.setState({ page: pageNumber });
   }
 
   nextPage() {
-    if(this.state.page<42)
-      this.setState({page: this.state.page+1})
+    if (this.state.page < 42) this.setState({ page: this.state.page + 1 });
   }
 
   previousPage() {
-    if(this.state.page>1)
-      this.setState({page: this.state.page-1})
+    if (this.state.page > 1) this.setState({ page: this.state.page - 1 });
   }
 
   addLikedCharacter(id) {
@@ -60,36 +71,48 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData()
+    this.fetchData();
   }
 
   componentDidUpdate(previousProps, previousState) {
-    if(previousState.page!==this.state.page) {
-      this.fetchData()
+    if (previousState.page !== this.state.page) {
+      this.fetchData();
     }
   }
 
   render() {
     return (
       <>
-        {/* <Home
-          characters={this.state.characters}
-          likedCharacters={this.state.likedCharacters}
-          addLikedCharacter={this.addLikedCharacter.bind(this)}
-          removeLikedCharacter={this.removeLikedCharacter.bind(this)}
-          previousPage = {this.previousPage.bind(this)}
-          nextPage = {this.nextPage.bind(this)}
-          page = {this.state.page}
-          setPage = {this.setPage.bind(this)}
-        ></Home> */}
-        <SinglePage
-          id = {3}
-          characters={this.state.characters}
-          likedCharacters={this.state.likedCharacters}
-          addLikedCharacter={this.addLikedCharacter.bind(this)}
-          removeLikedCharacter={this.removeLikedCharacter.bind(this)}
-        ></SinglePage>
-      </>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              characters={this.state.characters}
+              likedCharacters={this.state.likedCharacters}
+              addLikedCharacter={this.addLikedCharacter.bind(this)}
+              removeLikedCharacter={this.removeLikedCharacter.bind(this)}
+              previousPage={this.previousPage.bind(this)}
+              nextPage={this.nextPage.bind(this)}
+              page={this.state.page}
+              setPage={this.setPage.bind(this)}
+              ></Home>
+            }
+            ></Route>
+        <Route
+          path="characters/:id"
+          element={
+            <SinglePage
+              id={3}
+              characters={this.state.characters}
+              likedCharacters={this.state.likedCharacters}
+              addLikedCharacter={this.addLikedCharacter.bind(this)}
+              removeLikedCharacter={this.removeLikedCharacter.bind(this)}
+            ></SinglePage>
+          }
+          ></Route>
+      </Routes>
+          </>
     );
   }
 }

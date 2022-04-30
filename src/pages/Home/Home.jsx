@@ -9,7 +9,10 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page">
-        <Header></Header>
+        <Header
+          goToHomePage = {this.props.goToHomePage}
+          goToSinglePage = {this.props.goToSinglePage}
+        ></Header>
         <Pagination
           page = {this.props.page}
           previousPage={this.props.previousPage}
@@ -18,12 +21,14 @@ class Home extends React.Component {
         ></Pagination>
         <main className="character-container">
           {this.props.characters.map((e) => (
+            
             <Card
               character={e}
               liked={this.props.likedCharacters.includes(e.id)}
               addLikedCharacter={this.props.addLikedCharacter}
               removeLikedCharacter={this.props.removeLikedCharacter}
-            ></Card>
+              ></Card>
+            
           ))}
         </main>
         <Footer></Footer>

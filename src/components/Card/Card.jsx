@@ -1,10 +1,12 @@
 import React from "react";
 import "./card.css";
+import { Link } from "react-router-dom";
+
 
 class Card extends React.Component {
   render() {
     return (
-      <div className="card">
+      <Link to={`/characters/${this.props.character.id}`}className="card">
         <img
           id="character-image"
           src={this.props.character.image}
@@ -15,7 +17,10 @@ class Card extends React.Component {
         {!this.props.liked ? (
           <button
             className="button-like"
-            onClick={() => this.props.addLikedCharacter(this.props.character.id)}
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+            this.props.addLikedCharacter(this.props.character.id)}}
           >
             <i className="fa">&#xf087;</i>
             <span>Like</span>
@@ -23,13 +28,16 @@ class Card extends React.Component {
         ) : (
           <button
             className="button-unlike"
-            onClick={() => this.props.removeLikedCharacter(this.props.character.id)}
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              this.props.removeLikedCharacter(this.props.character.id)}}
           >
             <i className="fa">&#xf087;</i>
             <span>Unlike</span>
           </button>
         )}
-      </div>
+      </Link>
     );
   }
 }

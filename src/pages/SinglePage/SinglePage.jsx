@@ -22,7 +22,10 @@ class SinglePage extends React.Component {
 
     return (
       <div className="single-page">
-        <Header></Header>
+        <Header
+        goToHomePage = {this.props.goToHomePage}
+        goToSinglePage = {this.props.goToSinglePage}
+        ></Header>
         <main className="single-character">
           <div className="char-card">
             {char?<Card

@@ -6,6 +6,8 @@
     align-items: center;
     width: 300px;
     padding-bottom: 18px;
+    text-decoration: none;
+    color:black;
 }
 
 h2 {

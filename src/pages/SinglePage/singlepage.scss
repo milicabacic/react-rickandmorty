@@ -1,0 +1,51 @@
+.single-page {
+  .single-character {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    background-color: white;
+
+    .char-data {
+      height: 538.2px;
+      padding-right: 25px;
+      display: flex;
+      flex-direction: column;
+      padding-top: 10px;
+
+      h3 {
+        padding: 25px 0;
+      }
+    }
+
+    .char-card {
+      height: fit-content;
+    }
+
+    .nonExistingChar{
+      text-decoration: underline;
+      
+    }
+  }
+
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .back-button {
+    height: 100px;
+    width: 100px;
+    background-color: rgb(153, 255, 0);
+    position: absolute;
+    top: 32px;
+    left: 32px;
+
+    img {
+      height: 48px;
+      width: 48px;
+    }
+  }
+}

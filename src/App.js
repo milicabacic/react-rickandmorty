@@ -1,120 +1,79 @@
 import React from "react";
 import Home from "./pages/Home/Home";
 import SinglePage from "./pages/SinglePage/SinglePage";
-import "./app.css";
+import "./app.scss";
 import { Route, Routes, useParams } from "react-router-dom";
 import Dugme from "./nesto";
+import { useState } from "react";
+import { useEffect } from "react";
 
+const App = () => {
+  const [page, setPage] = useState(1);
+  const [characters, setCharacters] = useState([]);
+  const [likedCharacters, setLikedCharacters] = useState(
+    JSON.parse(localStorage.getItem("likedCharacters")) || []
+  );
 
-
-class App extends React.Component {
-  state = {
-    page: 1,
-    htmlPage: "home",
-    characters: [],
-    likedCharacters: JSON.parse(localStorage.getItem("likedCharacters")) || [],
+  const nextPage = () => {
+    if (page < 42) setPage((p) => p + 1);
   };
 
-  goToHomePage() {
-    this.setState({ htmlPage: "home" });
-  }
+  const previousPage = () => {
+    if (page > 1) setPage((p) => p - 1);
+  };
 
-  goToSinglePage() {
-    this.setState({ htmlPage: "single" });
-  }
+  const addLikedCharacter = (id) => {
+    setLikedCharacters([...likedCharacters.filter((e) => e != id), id]);
+  };
 
-  fetchData() {
-    fetch("https://rickandmortyapi.com/api/character/?page=" + this.state.page)
+  const removeLikedCharacter = (id) => {
+    setLikedCharacters(likedCharacters.filter((e) => e != id));
+  };
+
+  useEffect(() => {
+    fetch("https://rickandmortyapi.com/api/character/?page=" + page)
       .then((res) => res.json())
-      .then((res) => this.setState({ characters: res.results }));
-  }
+      .then((res) => setCharacters(res.results));
+  }, [page]);
 
-  setPage(pageNumber) {
-    this.setState({ page: pageNumber });
-  }
+  useEffect(
+    () =>
+      localStorage.setItem("likedCharacters", JSON.stringify(likedCharacters)),
+    [likedCharacters]
+  );
 
-  nextPage() {
-    if (this.state.page < 42) this.setState({ page: this.state.page + 1 });
-  }
-
-  previousPage() {
-    if (this.state.page > 1) this.setState({ page: this.state.page - 1 });
-  }
-
-  addLikedCharacter(id) {
-    this.setState(
-      {
-        likedCharacters: [
-          ...this.state.likedCharacters.filter((e) => e != id),
-          id,
-        ],
-      },
-      () =>
-        localStorage.setItem(
-          "likedCharacters",
-          JSON.stringify(this.state.likedCharacters)
-        )
-    );
-  }
-
-  removeLikedCharacter(id) {
-    this.setState(
-      {
-        likedCharacters: this.state.likedCharacters.filter((e) => e != id),
-      },
-      () =>
-        localStorage.setItem(
-          "likedCharacters",
-          JSON.stringify(this.state.likedCharacters)
-        )
-    );
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  componentDidUpdate(previousProps, previousState) {
-    if (previousState.page !== this.state.page) {
-      this.fetchData();
-    }
-  }
-
-  render() {
-    return (
-      <>
+  return (
+    <>
       <Routes>
         <Route
           path="/"
           element={
             <Home
-              characters={this.state.characters}
-              likedCharacters={this.state.likedCharacters}
-              addLikedCharacter={this.addLikedCharacter.bind(this)}
-              removeLikedCharacter={this.removeLikedCharacter.bind(this)}
-              previousPage={this.previousPage.bind(this)}
-              nextPage={this.nextPage.bind(this)}
-              page={this.state.page}
-              setPage={this.setPage.bind(this)}
-              ></Home>
-            }
-            ></Route>
+              characters={characters}
+              likedCharacters={likedCharacters}
+              addLikedCharacter={addLikedCharacter}
+              removeLikedCharacter={removeLikedCharacter}
+              previousPage={previousPage}
+              nextPage={nextPage}
+              page={page}
+              setPage={setPage}
+            ></Home>
+          }
+        ></Route>
         <Route
           path="characters/:id"
           element={
             <SinglePage
-              id={3}
-              characters={this.state.characters}
-              likedCharacters={this.state.likedCharacters}
-              addLikedCharacter={this.addLikedCharacter.bind(this)}
-              removeLikedCharacter={this.removeLikedCharacter.bind(this)}
+              characters={characters}
+              likedCharacters={likedCharacters}
+              addLikedCharacter={addLikedCharacter}
+              removeLikedCharacter={removeLikedCharacter}
             ></SinglePage>
           }
-          ></Route>
+        ></Route>
       </Routes>
-          </>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default App;

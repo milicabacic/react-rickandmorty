@@ -3,30 +3,29 @@ import Header from "../../components/Header/Header";
 import Card from "../../components/Card/Card";
 import Footer from "../../components/Footer/Footer";
 import Pagination from "../../components/Pagination/Pagination";
-import "./home.css";
+import "./home.scss";
 
-class Home extends React.Component {
-  render() {
+const Home = (props) => {
     return (
       <div className="home-page">
         <Header
-          goToHomePage = {this.props.goToHomePage}
-          goToSinglePage = {this.props.goToSinglePage}
+          goToHomePage = {props.goToHomePage}
+          goToSinglePage = {props.goToSinglePage}
         ></Header>
         <Pagination
-          page = {this.props.page}
-          previousPage={this.props.previousPage}
-          nextPage={this.props.nextPage}
-          setPage = {this.props.setPage}
+          page = {props.page}
+          previousPage={props.previousPage}
+          nextPage={props.nextPage}
+          setPage = {props.setPage}
         ></Pagination>
         <main className="character-container">
-          {this.props.characters.map((e) => (
+          {props.characters.map((e) => (
             
             <Card
               character={e}
-              liked={this.props.likedCharacters.includes(e.id)}
-              addLikedCharacter={this.props.addLikedCharacter}
-              removeLikedCharacter={this.props.removeLikedCharacter}
+              liked={props.likedCharacters.includes(e.id)}
+              addLikedCharacter={props.addLikedCharacter}
+              removeLikedCharacter={props.removeLikedCharacter}
               ></Card>
             
           ))}
@@ -35,6 +34,6 @@ class Home extends React.Component {
       </div>
     );
   }
-}
+
 
 export default Home;
